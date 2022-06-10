@@ -4,7 +4,7 @@
 * This is a systems analysis and design project assigned as coursework.
 
 ## Test
-* The system runs on this link .[here].(https://daphine.devkooba.org/)
+* The system runs on this link .(https://daphine.devkooba.org/)
 * The system is strongly encrypted such that the user or admin must use a really strong password when registering to proceed
 * You can register yourself and then login to test the system
 * It has instances/bookings where a user books a computer he/she wants and that is available
