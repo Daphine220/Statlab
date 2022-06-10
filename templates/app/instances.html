@@ -1,0 +1,212 @@
+{% extends "base.html" %} {% load crispy_forms_tags %}{% block content %}
+
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Instance / Booking Panel</h1>
+    <a
+      href="#"
+      class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+      ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a
+    >
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class="col-lg-12 mb-4">
+      <!-- Illustrations -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Register instance </h6>
+        </div>
+        <div class="card-body">
+          <form class="user" method="POST" autocomplete="off">
+            {% csrf_token %} {{ form.non_field_errors }}
+
+            <div class="row">
+              {% for field in form %}
+              <div class="col-md-6">
+                <div class="mb-3">{{ field|as_crispy_field }}</div>
+              </div>
+              {% endfor %}
+            </div>
+            <button class="btn btn-primary btn-user">Add instance</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Content Column -->
+
+
+    {% if instance %}
+
+    <div class="col-lg-12 mb-4">
+      <!-- Project Card Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            Your Instances in the System
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Computer</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Computer</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>ACTION</th>
+                </tr>
+                </tr>
+              </tfoot>
+              <tbody>
+
+                {% for obj in instance %}
+
+                <tr>
+                  <td>{{ obj.instance_id }}</td>
+                  <td>{{ obj.user.username }}</td>
+                  <td>{{ obj.computer.computer_id }}</td>
+                  <td>{{ obj.computer.is_available }}</td>
+                  <td>{{ obj.timestamp|date }}</td>
+
+                  <td>
+
+                    <a class="btn btn-danger" href="{% url 'app:delete_instance' obj.pk %}">Disconnect</a>
+
+                    <!-- <div class="dropdown no-arrow mb-4">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Actions
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <a class="dropdown-item" href="{% url 'app:update_instance' obj.pk %}">Edit</a>
+                            
+                        <a class="dropdown-item" href="{% url 'app:delete_instance' obj.pk %}">Delete</a>
+                      </div>
+                  </div> -->
+
+                    
+                </td>
+
+                </tr>
+                {% endfor %}
+                
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+
+    {% if request.user.profile.user.is_admin %}
+      
+    
+
+    {% if admin_instance %}
+
+    <div class="col-lg-12 mb-4">
+      <!-- Project Card Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            Admin View of Instances in the System
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Computer</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Computer</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>ACTION</th>
+                </tr>
+                </tr>
+              </tfoot>
+              <tbody>
+
+                {% for obj in admin_instance %}
+
+                <tr>
+                  <td>{{ obj.instance_id }}</td>
+                  <td>{{ obj.user.username }}</td>
+                  <td>{{ obj.computer.computer_id }}</td>
+                  <td>{{ obj.computer.is_available }}</td>
+                  <td>{{ obj.timestamp|date }}</td>
+
+                  <td>
+
+                    <a class="btn btn-danger" href="{% url 'app:delete_instance' obj.pk %}">Disconnect</a>
+
+                    <!-- <div class="dropdown no-arrow mb-4">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Actions
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <a class="dropdown-item" href="{% url 'app:update_instance' obj.pk %}">Edit</a>
+                            
+                        <a class="dropdown-item" href="{% url 'app:delete_instance' obj.pk %}">Delete</a>
+                      </div>
+                  </div> -->
+
+                    
+                </td>
+
+                </tr>
+                {% endfor %}
+                
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endif %}
+
+
+  </div>
+</div>
+
+{% endblock content %}

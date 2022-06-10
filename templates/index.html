@@ -1,0 +1,371 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="container-fluid">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    <a
+      href="#"
+      class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+      ><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a
+    >
+  </div>
+
+  {% if request.user.profile.is_admin %}
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Users Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+              >
+                Users
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ count_users }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-user fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-success text-uppercase mb-1"
+              >
+                Computers
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ count_computers }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-laptop fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Available Computers Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-warning shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-warning text-uppercase mb-1"
+              >
+                Available Computers
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ count_av_computers }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-comments fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+
+  <div class="row">
+    <!-- Area Chart -->
+    <div class="col-xl-8 col-lg-7">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+          class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+        >
+          <h6 class="m-0 font-weight-bold text-primary">
+            Weekly User Registeration Trend
+          </h6>
+          <div class="dropdown no-arrow">
+            <a
+              class="dropdown-toggle"
+              href="#"
+              role="button"
+              id="dropdownMenuLink"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <div class="dropdown-header">Export</div>
+              <a class="dropdown-item" href="#">Excel</a>
+              <a class="dropdown-item" href="#">CSV</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Share</a>
+            </div>
+          </div>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="chart-area">
+            <canvas id="myAreaChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pie Chart -->
+    <div class="col-xl-4 col-lg-5">
+      <div class="card shadow mb-4">
+        <!-- Card Header - Dropdown -->
+        <div
+          class="card-header py-3 d-flex flex-row align-items-center justify-content-between"
+        >
+          <h6 class="m-0 font-weight-bold text-primary">
+            Users Operating System
+          </h6>
+        </div>
+        <!-- Card Body -->
+        <div class="card-body">
+          <div class="chart-pie pt-4 pb-2">
+            <canvas id="myPieChart"></canvas>
+          </div>
+          <div class="mt-4 text-center small">
+            <span class="mr-2">
+              <i class="fas fa-circle text-primary"></i> Linux
+            </span>
+            <span class="mr-2">
+              <i class="fas fa-circle text-success"></i> Windows
+            </span>
+            <span class="mr-2">
+              <i class="fas fa-circle text-info"></i> MacOS
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Row -->
+  <div class="row">
+    <div class="col-lg-5 mb-4">
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            CPU Utilization By Different Computers
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="chart-bar">
+            <canvas id="myBarChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Content Column -->
+    <div class="col-lg-7 mb-4">
+      <!-- Project Card Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">Users in the System</h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Action</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for obj in users %}
+                <tr>
+                  <td>{{ obj.username }}</td>
+                  <td>{{ obj.email }}</td>
+                  <td>{{ obj.first_name }}</td>
+                  <td>{{ obj.last_name }}</td>
+                  <td>
+                    <!-- <div class="dropdown no-arrow mb-4">
+                      <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        id="dropdownMenuButton"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                      >
+                        Actions
+                      </button>
+                      <div
+                        class="dropdown-menu"
+                        aria-labelledby="dropdownMenuButton"
+                      >
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'app:update_computer' obj.pk %}"
+                          >Edit</a
+                        >
+
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'app:delete_computer' obj.pk %}"
+                          >Delete</a
+                        >
+                      </div>
+                    </div> -->
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% else %}
+  <div class="row">
+    <!-- Users Card Example -->
+    <div class="col-xl-4 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div
+                class="text-xs font-weight-bold text-primary text-uppercase mb-1"
+              >
+                Instances
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                {{ count_user_instances }}
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-user fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if user_instances %}
+
+  <!-- Content Row -->
+  <div class="row">
+    <!-- Content Column -->
+    <div class="col-lg-12 mb-4">
+      <!-- Project Card Example -->
+      <div class="card shadow mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            Instances in the System
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table
+              class="table table-bordered"
+              id="dataTable"
+              width="100%"
+              cellspacing="0"
+            >
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Computer</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>ACTION</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th>ID</th>
+                  <th>User</th>
+                  <th>Computer</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>ACTION</th>
+                </tr>
+                </tr>
+              </tfoot>
+              <tbody>
+                {% for obj in user_instances %}
+                  
+               
+                <tr>
+                  <td>{{ obj.instance_id }}</td>
+                  <td>{{ obj.user.username }}</td>
+                  <td>{{ obj.computer.computer_id }}</td>
+                  <td>{{ obj.computer.is_available }}</td>
+                  <td>{{ obj.timestamp|date }}</td>
+
+                  <td>
+
+                    <a class="btn btn-danger" href="{% url 'app:delete_instance' obj.pk %}">Disconnect</a>
+
+                    <!-- <div class="dropdown no-arrow mb-4">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Actions
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                        <a class="dropdown-item" href="{% url 'app:update_instance' obj.pk %}">Edit</a>
+                            
+                        <a class="dropdown-item" href="{% url 'app:delete_instance' obj.pk %}">Delete</a>
+                      </div>
+                  </div> -->
+
+                    
+                </td>
+
+                </tr>
+                {% endfor %}
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %} {% endif %}
+</div>
+
+{% endblock content %}
