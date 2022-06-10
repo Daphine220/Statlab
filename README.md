@@ -39,7 +39,6 @@
 * JAVASCRIPT for the back end and some front end
 * CSS for styling the front end
 * Python and Django for the back end service
-* MONGODB as the database
+* Django as the database
 * GIT and GITHUB for controlling the version
-* HEROKU for hosting services
 
